@@ -7,10 +7,10 @@ var auth = require("../auth.service");
 var router = express.Router();
 
 router.post("/", function(req, res, next) {
-  passport.authenticate("local", function(err, user, info) {
+  passport.authenticate("local-admin", function(err, user, info) {
     var error = err || info;
     if (error)
-      return res.json(401, {
+      return res.status(401).json({
         success: false,
         message: error.message
       });
@@ -20,12 +20,7 @@ router.post("/", function(req, res, next) {
         message: "Authentication failed. Wrong password."
       });
 
-    // if (user.role != "master")
-    //   return res.json(404, {
-    //     success: false,
-    //     message: "Authentication failed. Wrong role."
-    //   });
-    var token = auth.signToken(user._id, user.role);
+    var token = auth.signToken(user.id);
 
     res.status(200).json({
       success: true,

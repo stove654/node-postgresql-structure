@@ -3,12 +3,21 @@ var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(__filename);
 var db        = {};
-var config = require("../../config/config")
+var config = require("../config/config-env")
+var log = false
+if (config.env == "local") {
+  log = true
+}
 
 const sequelize = new Sequelize(config.database.name, config.database.user, config.database.password, {
-  host: 'localhost',
-  dialect: 'postgres'
+  host: config.database.host,
+  dialect: 'postgres',
+  define: {
+    timestamps: true
+  },
+  logging: log
 });
+
 
 sequelize
   .authenticate()
@@ -18,7 +27,6 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
-
 fs
   .readdirSync(__dirname)
   .filter(file => {

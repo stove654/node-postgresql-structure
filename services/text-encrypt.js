@@ -1,7 +1,7 @@
 "use strict";
 
 var crypto = require("crypto");
-var config = require("../config/config");
+var config = require("../config/config-env");
 
 var ENCRYPTION_KEY = config.encryptKey; // Must be 256 bytes (32 characters)
 var IV_LENGTH = 16; // For AES, this is always 16
@@ -43,6 +43,41 @@ function decrypt(text) {
 }
 
 function generateKeyWorkshop(text) {
-  return crypto.randomBytes(5).toString("hex");
+  return crypto.randomBytes(2).toString("hex");
 }
-module.exports = { decrypt, encrypt, generateKeyWorkshop };
+
+function encryptPassword (password, salt) {
+  if (!password) return "";
+  var salt = Buffer.from(salt, "base64");
+  return crypto
+    .pbkdf2Sync(password, salt, 200000, 64, "sha512")
+    .toString("base64");
+}
+
+// function comparePassword(password,salt) {
+//   if (!password) return "";
+//   var salt = Buffer.from(salt, "base64");
+//   return password == pbkdf2(password, salt, 200000, 64, "sha512");
+// }
+
+function makeSalt() {
+  return crypto.randomBytes(16).toString("base64");
+}
+
+function userAuthenticate (plainText, hashedPassword, salt) {
+  return this.encryptPassword(plainText, salt) === hashedPassword;
+}
+
+function makeUniqueAccessCode(length) {
+  length = length || 10;
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+
+module.exports = { decrypt, encrypt, generateKeyWorkshop, encryptPassword, makeSalt, userAuthenticate, makeUniqueAccessCode };

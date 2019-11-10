@@ -5,10 +5,11 @@
 "use strict";
 
 var bodyParser = require("body-parser");
-var config = require("./config.js");
+var config = require("./config-env");
 var session = require("express-session");
 var cors = require("cors");
 var passport = require("passport");
+
 
 module.exports = function(app) {
   app.use(cors());

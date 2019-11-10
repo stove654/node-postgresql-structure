@@ -1,16 +1,25 @@
+require('dotenv').config();
+
 module.exports = {
-  env: process.env.ENV,
-  secret: process.env.SECRET,
-  database: {
-    name: process.env.DATABASE || null,
-    user: process.env.DATABASEUSER || null,
-    password: process.env.DATABASEUPASSWORD
+  "development": {
+    "username": process.env.DATABASEUSER,
+    "password": process.env.DATABASEUPASSWORD,
+    "database": process.env.DATABASE,
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   },
-  encryptKey: process.env.ENCRYPTKEY,
-  s3Aws: {
-    secretAccessKey: process.env.AWSSECRETACCESSKEY,
-    accessKeyId: process.env.AWSACCESSKEYID,
-    region: process.env.AWSREGION,
-    s3Bucket: process.env.AWSBUCKET
+  "test": {
+    "username": "myuser",
+    "password": "mypass",
+    "database": "mydb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": process.env.DATABASEUSER,
+    "password": process.env.DATABASEUPASSWORD,
+    "database": process.env.DATABASE,
+    "host": process.env.DATABASEHOST,
+    "dialect": "postgres"
   }
-};
+}

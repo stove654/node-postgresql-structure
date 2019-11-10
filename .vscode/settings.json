@@ -1,0 +1,5 @@
+{
+    "editor.renderWhitespace": "boundary",
+    "eslint.autoFixOnSave": true,
+    "editor.formatOnSave": false
+}

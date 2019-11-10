@@ -1,11 +1,9 @@
-"use strict";
 
-var express = require("express");
-var User = require("../api/user/user.model");
-var passport = require("passport");
-require("./local/passport").setup(User);
+const express = require('express')
+require('./passport').setup()
 
-var router = express.Router();
-router.use("/local", require("./local"));
+const router = express.Router()
+router.use('/admin', require('./admin'))
+router.use('/user', require('./user'))
 
-module.exports = router;
+module.exports = router
