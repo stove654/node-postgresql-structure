@@ -1,8 +1,5 @@
 node_modules
 .idea
 uploads/*
-.env
-microservices/worker/.env
-test.js
 package-lock.json
 newrelic_agent.log
